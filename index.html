@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio da Visão Móvel</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; position: relative; height: 100vh; overflow: hidden; }
+        #target { position: absolute; width: 50px; height: 50px; cursor: pointer; }
+        #score { font-size: 24px; }
+        #startButton { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Desafio da Visão Móvel</h1>
+    <div id="score">Pontuação: 0</div>
+    <button id="startButton">Começar</button>
+    <div id="target" style="display:none;"></div>
+
+    <script>
+        const colors = ["red", "blue", "green", "yellow", "orange", "purple"];
+        let score = 0;
+        let targetElement;
+        let gameInterval;
+
+        document.getElementById('startButton').onclick = function() {
+            this.style.display = 'none';
+            startGame();
+        };
+
+        function startGame() {
+            score = 0;
+            updateScore();
+            spawnTarget();
+            gameInterval = setInterval(spawnTarget, 1000); // Muda de alvo a cada segundo
+        }
+
+        function spawnTarget() {
+            if (!targetElement) {
+                targetElement = document.getElementById('target');
+            }
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            targetElement.style.backgroundColor = color;
+            targetElement.style.display = 'block';
+            targetElement.style.top = Math.random() * (window.innerHeight - 50) + 'px'; // Ajusta para a altura
+            targetElement.style.left = Math.random() * (window.innerWidth - 50) + 'px'; // Ajusta para a largura
+
+            targetElement.onclick = () => {
+                score++;
+                updateScore();
+                targetElement.style.display = 'none'; // Esconde o alvo
+            };
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = 'Pontuação: ' + score;
+        }
+
+        // Para parar o jogo, você pode implementar um botão de "Parar" ou um tempo limite.
+        // Aqui estamos apenas reiniciando o jogo, mas você pode personalizar conforme desejar.
+    </script>
+</body>
+</html>
